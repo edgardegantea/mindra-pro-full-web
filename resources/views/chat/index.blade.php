@@ -369,10 +369,21 @@ function chat() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 this.audioChunks = [];
-                this.mediaRecorder = new MediaRecorder(stream);
+
+                const preferred = [
+                    'audio/ogg;codecs=opus',
+                    'audio/webm;codecs=opus',
+                    'audio/webm',
+                    'audio/mp4',
+                ];
+                this.audioMime = preferred.find(t => MediaRecorder.isTypeSupported(t)) || '';
+                const opts = this.audioMime ? { mimeType: this.audioMime } : {};
+
+                this.mediaRecorder = new MediaRecorder(stream, opts);
                 this.mediaRecorder.ondataavailable = e => this.audioChunks.push(e.data);
                 this.mediaRecorder.onstop = () => {
-                    this.audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+                    const mime = this.audioMime || 'audio/webm';
+                    this.audioBlob = new Blob(this.audioChunks, { type: mime });
                     stream.getTracks().forEach(t => t.stop());
                 };
                 this.mediaRecorder.start();
@@ -393,7 +404,12 @@ function chat() {
 
             const formData = new FormData();
             if (textVal) formData.append('texto', textVal);
-            if (this.audioBlob) formData.append('audio', this.audioBlob, 'recording.webm');
+            if (this.audioBlob) {
+                const ext = this.audioMime.includes('ogg') ? 'ogg'
+                          : this.audioMime.includes('mp4') ? 'mp4'
+                          : 'webm';
+                formData.append('audio', this.audioBlob, `recording.${ext}`);
+            }
 
             this.text = '';
             this.audioBlob = null;

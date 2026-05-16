@@ -9,7 +9,6 @@
                 ['route' => 'legal.cookies',   'label' => 'Cookies'],
                 ['route' => 'legal.terms',     'label' => 'Términos de uso'],
                 ['route' => 'legal.consent',   'label' => 'Consentimiento informado'],
-                ['route' => 'legal.research',  'label' => 'Marco de investigación'],
             ];
         @endphp
         @foreach ($links as $link)
