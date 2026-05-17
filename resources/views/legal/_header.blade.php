@@ -11,7 +11,7 @@
 @endphp
 
 {{-- Breadcrumb --}}
-<nav style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:#94a3b8;margin-bottom:1.5rem;">
+<nav style="display:flex;align-items:center;gap:6px;font-size:.875rem;color:#94a3b8;margin-bottom:1.5rem;max-width:48rem;margin-left:auto;margin-right:auto;margin-bottom:1.5rem;">
     <a href="{{ route('dashboard') }}" style="color:#94a3b8;text-decoration:none;"
        onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#94a3b8'">Inicio</a>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;color:#cbd5e1;">
@@ -21,14 +21,14 @@
 </nav>
 
 {{-- Header card --}}
-<div style="display:flex;align-items:flex-start;gap:16px;padding:1.5rem;border-radius:18px;border:1px solid {{ $c['border'] }};background:{{ $c['bg'] }};margin-bottom:2.5rem;">
+<div style="display:flex;align-items:flex-start;gap:16px;padding:1.5rem;border-radius:18px;border:1px solid {{ $c['border'] }};background:{{ $c['bg'] }};margin-bottom:2.5rem;max-width:48rem;margin-left:auto;margin-right:auto;">
     <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:{{ $c['bg'] }};border:1.5px solid {{ $c['border'] }};display:flex;align-items:center;justify-content:center;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="{{ $c['icon'] }}" style="width:22px;height:22px;">
             <path fill-rule="evenodd" d="{{ $icon }}" clip-rule="evenodd"/>
         </svg>
     </div>
     <div>
-        <h1 style="font-size:1.375rem;font-weight:800;color:{{ $c['title'] }};margin:0 0 4px;">{{ $title }}</h1>
-        <p style="font-size:.8125rem;color:#64748b;margin:0;">{{ $subtitle }}</p>
+        <h1 style="font-size:1.5rem;font-weight:800;color:{{ $c['title'] }};margin:0 0 4px;">{{ $title }}</h1>
+        <p style="font-size:.9375rem;color:#64748b;margin:0;">{{ $subtitle }}</p>
     </div>
 </div>

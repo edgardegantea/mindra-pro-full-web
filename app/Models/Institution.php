@@ -17,4 +17,9 @@ class Institution extends Model
     {
         return $this->hasManyThrough(InferenceRecord::class, User::class);
     }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }

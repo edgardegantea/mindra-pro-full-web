@@ -5,7 +5,7 @@
 @push('styles')
 <style>
     .form-card {
-        max-width: 100%;
+        max-width: 48rem;
         margin: 0 auto;
         background: #fff;
         border-radius: 24px;

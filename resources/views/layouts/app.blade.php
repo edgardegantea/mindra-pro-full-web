@@ -11,7 +11,7 @@
 <body class="min-h-screen bg-slate-50 text-slate-800">
 
     <nav class="bg-white border-b border-slate-200">
-        <div class="max-w-full mx-auto px-4 h-14 flex items-center justify-between">
+        <div class="mx-auto px-4 h-14 flex items-center justify-between" style="max-width:80rem;">
             <a href="{{ route('dashboard') }}" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
                 <img src="/assets/img/mindra1.png" alt="" style="height:40px;width:auto;">
                 <img src="/assets/img/mindra2.png" alt="Mindra" style="height:80px;width:auto;">
@@ -26,7 +26,12 @@
                     Historial
                 </a>
                 @auth
-                    @if (auth()->user()->isAdmin())
+                    @if (auth()->user()->isSuperAdmin())
+                        <a href="{{ route('superadmin.dashboard') }}"
+                           class="font-medium {{ request()->routeIs('superadmin.*') ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-800' }} transition-colors">
+                            SuperAdmin
+                        </a>
+                    @elseif (auth()->user()->isAdmin())
                         <a href="{{ route('admin.dashboard') }}"
                            class="font-medium {{ request()->routeIs('admin.*') ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-800' }} transition-colors">
                             Panel Admin
@@ -50,7 +55,7 @@
     </nav>
 
     @stack('styles')
-    <main class="max-w-full mx-auto px-4 py-8">
+    <main class="mx-auto px-4 py-8" style="max-width:80rem;">
         @yield('content')
     </main>
 
@@ -58,7 +63,7 @@
     <footer style="background:#fff;border-top:1px solid #e8edf5;margin-top:auto;">
 
         {{-- Franja principal --}}
-        <div style="max-width:100%;margin:0 auto;padding:2.5rem 1.5rem 2rem;">
+        <div style="max-width:80rem;margin:0 auto;padding:2.5rem 1.5rem 2rem;">
             <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
 
                 {{-- Columna marca --}}
@@ -146,7 +151,7 @@
         </div>
 
         {{-- Aviso de privacidad resumido --}}
-        <div style="max-width:100%;margin:0 auto;padding:0 1.5rem 1.5rem;">
+        <div style="max-width:80rem;margin:0 auto;padding:0 1.5rem 1.5rem;">
             <div style="border-radius:14px;background:#f8fafc;border:1px solid #e8edf5;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                      style="width:16px;height:16px;flex-shrink:0;color:#6366f1;margin-top:1px;">
@@ -168,7 +173,7 @@
 
         {{-- Barra inferior --}}
         <div style="border-top:1px solid #e8edf5;background:#f8fafc;">
-            <div style="max-width:100%;margin:0 auto;padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div style="max-width:80rem;margin:0 auto;padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                 <span style="font-size:.75rem;color:#94a3b8;">
                     © {{ date('Y') }} Mindra. Todos los derechos reservados.
                 </span>

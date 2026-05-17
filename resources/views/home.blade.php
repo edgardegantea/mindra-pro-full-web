@@ -22,7 +22,7 @@
             border-bottom: 1px solid rgba(226,232,240,.6);
         }
         .nav-inner {
-            max-width: 100%; margin: 0 auto; padding: 0 2.5rem;
+            max-width: 80rem; margin: 0 auto; padding: 0 2rem;
             height: 64px; display: flex; align-items: center; justify-content: space-between;
         }
         .nav-brand { display: flex; align-items: center; gap: 10px; }
@@ -85,6 +85,11 @@
             <a href="#beneficios">Beneficios</a>
             <span class="nav-divider"></span>
             @auth
+                @if(auth()->user()->isSuperAdmin())
+                    <a href="{{ route('superadmin.dashboard') }}" style="color:#4f46e5;">SuperAdmin</a>
+                @elseif(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" style="color:#4f46e5;">Panel Admin</a>
+                @endif
                 <a href="{{ route('dashboard') }}" style="color:#4f46e5;">Mi dashboard</a>
             @else
                 <a href="{{ route('login') }}">Iniciar sesión</a>
@@ -100,7 +105,7 @@
     <div style="position:absolute;top:-100px;right:-100px;width:450px;height:450px;background:radial-gradient(circle,rgba(99,102,241,.08),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
     <div style="position:absolute;bottom:-120px;left:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.06),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
 
-    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;display:flex;align-items:center;gap:60px;" class="hero-grid">
+    <div style="max-width:80rem;margin:0 auto;padding-left:2rem;padding-right:2rem;display:flex;align-items:center;gap:60px;" class="hero-grid">
 
         {{-- Text --}}
         <div style="flex:1;min-width:0;" class="hero-text">
@@ -181,7 +186,7 @@
 
 {{-- ── Cómo funciona ────────────────────────────────────────────────────────── --}}
 <section id="como-funciona" style="padding:100px 1.5rem;background:#fff;">
-    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+    <div style="max-width:80rem;margin:0 auto;padding-left:2rem;padding-right:2rem;">
         <div style="text-align:center;margin-bottom:60px;">
             <span style="font-size:.75rem;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:10px;">Proceso inteligente</span>
             <h2 style="font-size:2.5rem;font-weight:900;color:#0f172a;letter-spacing:-.02em;">Cómo funciona Mindra</h2>
@@ -189,11 +194,11 @@
 
         <div class="steps-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
             {{-- Step 1 --}}
-            <div style="padding:32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;"
+            <div style="padding:36px 32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;text-align:center;"
                  onmouseover="this.style.background='#fff';this.style.boxShadow='0 8px 30px rgba(99,102,241,.1)';this.style.borderColor='#e0e7ff';"
                  onmouseout="this.style.background='#f8fafc';this.style.boxShadow='none';this.style.borderColor='#f1f5f9';">
-                <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 12px rgba(99,102,241,.1);">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;">
+                <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 6px 16px rgba(99,102,241,.12);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" style="width:36px;height:36px;">
                         <path d="M12 18.75C15.3137 18.75 18 16.0637 18 12.75V11.25C18 7.93629 15.3137 5.25 12 5.25C8.68629 5.25 6 7.93629 6 11.25V12.75C6 16.0637 8.68629 18.75 12 18.75Z" fill="#c7d2fe"/>
                         <path d="M12 2.25C9.92893 2.25 8.25 3.92893 8.25 6V12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12V6C15.75 3.92893 14.0711 2.25 12 2.25Z" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M19.5 12C19.5 16.1421 16.1421 19.5 12 19.5C7.85786 19.5 4.5 16.1421 4.5 12" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -212,13 +217,11 @@
             </div>
 
             {{-- Step 2 --}}
-            <div style="padding:32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;"
+            <div style="padding:36px 32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;text-align:center;"
                  onmouseover="this.style.background='#fff';this.style.boxShadow='0 8px 30px rgba(139,92,246,.1)';this.style.borderColor='#ede9fe';"
                  onmouseout="this.style.background='#f8fafc';this.style.boxShadow='none';this.style.borderColor='#f1f5f9';">
-                <div style="width:48px;height:48px;border-radius:14px;background:#f5f3ff;border:1px solid #ddd6fe;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#7c3aed" style="width:24px;height:24px;">
-                        <path fill-rule="evenodd" d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 8.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5Z" clip-rule="evenodd"/>
-                    </svg>
+                <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #ddd6fe;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 6px 16px rgba(139,92,246,.12);">
+                    <img src="/assets/img/mindra1.png" alt="Mindra IA" style="width:42px;height:42px;object-fit:contain;">
                 </div>
                 <div style="font-size:.6875rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Paso 2</div>
                 <h3 style="font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Análisis IA</h3>
@@ -228,13 +231,19 @@
             </div>
 
             {{-- Step 3 --}}
-            <div style="padding:32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;"
+            <div style="padding:36px 32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;text-align:center;"
                  onmouseover="this.style.background='#fff';this.style.boxShadow='0 8px 30px rgba(16,185,129,.1)';this.style.borderColor='#d1fae5';"
                  onmouseout="this.style.background='#f8fafc';this.style.boxShadow='none';this.style.borderColor='#f1f5f9';">
-                <div style="width:48px;height:48px;border-radius:14px;background:#f0fdf4;border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#16a34a" style="width:24px;height:24px;">
-                        <path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd"/>
-                        <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd"/>
+                <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 6px 16px rgba(22,163,74,.12);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" style="width:36px;height:36px;">
+                        <rect x="3" y="3" width="18" height="18" rx="3" fill="#dcfce7"/>
+                        <path d="M4.5 17.5L8.5 13L11 15.5L15 10L19.5 6.5" stroke="#16a34a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.5 17.5L8.5 13L11 15.5L15 10L19.5 6.5" stroke="#16a34a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" opacity=".15" style="filter:blur(2px)"/>
+                        <circle cx="8.5" cy="13" r="2" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+                        <circle cx="15" cy="10" r="2" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+                        <circle cx="19.5" cy="6.5" r="2" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+                        <path d="M16.5 6.5L19.5 6.5" stroke="#16a34a" stroke-width="1.25" stroke-linecap="round" opacity=".5"/>
+                        <path d="M19.5 6.5L19.5 9.5" stroke="#16a34a" stroke-width="1.25" stroke-linecap="round" opacity=".5"/>
                     </svg>
                 </div>
                 <div style="font-size:.6875rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Paso 3</div>
@@ -249,7 +258,7 @@
 
 {{-- ── Beneficios ───────────────────────────────────────────────────────────── --}}
 <section id="beneficios" style="padding:100px 1.5rem;background:#f8fafc;border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9;">
-    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+    <div style="max-width:80rem;margin:0 auto;padding-left:2rem;padding-right:2rem;">
         <div style="text-align:center;margin-bottom:60px;">
             <span style="font-size:.75rem;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:10px;">Por qué elegir Mindra</span>
             <h2 style="font-size:2.5rem;font-weight:900;color:#0f172a;letter-spacing:-.02em;">Privacidad y rigor científico</h2>
@@ -318,7 +327,7 @@
 
 {{-- ── Planes ───────────────────────────────────────────────────────────────── --}}
 <section id="planes" style="padding:100px 1.5rem;background:#fff;">
-    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+    <div style="max-width:80rem;margin:0 auto;padding-left:2rem;padding-right:2rem;">
         <div style="text-align:center;margin-bottom:60px;">
             <span style="font-size:.75rem;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:10px;">Elige tu plan</span>
             <h2 style="font-size:2.5rem;font-weight:900;color:#0f172a;letter-spacing:-.02em;">Un plan para cada necesidad</h2>
@@ -487,7 +496,7 @@
 
 {{-- ── Privacidad ───────────────────────────────────────────────────────────── --}}
 <section id="privacidad-section" style="padding:80px 1.5rem;background:#fff;">
-    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+    <div style="max-width:80rem;margin:0 auto;padding-left:2rem;padding-right:2rem;">
         <div style="border-radius:24px;background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1px solid #c7d2fe;padding:40px;display:flex;align-items:flex-start;gap:20px;">
             <div style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:#fff;border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(99,102,241,.1);">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4f46e5" style="width:26px;height:26px;">
@@ -516,7 +525,7 @@
 
 {{-- ── CTA ──────────────────────────────────────────────────────────────────── --}}
 <section style="padding:100px 1.5rem;">
-    <div style="max-width:100%;margin:0 auto;background:#0f172a;border-radius:32px;padding:64px 48px;text-align:center;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(15,23,42,.3);">
+    <div style="max-width:80rem;margin:0 auto;background:#0f172a;border-radius:32px;padding:64px 48px;text-align:center;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(15,23,42,.3);">
         {{-- Glow --}}
         <div style="position:absolute;top:-100px;right:-60px;width:350px;height:350px;background:radial-gradient(circle,rgba(99,102,241,.25),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
         <div style="position:absolute;bottom:-80px;left:-40px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
@@ -543,7 +552,7 @@
 
 {{-- ── Footer ───────────────────────────────────────────────────────────────── --}}
 <footer style="background:#fff;border-top:1px solid #e8edf5;padding:60px 1.5rem 24px;">
-    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+    <div style="max-width:80rem;margin:0 auto;padding-left:2rem;padding-right:2rem;">
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;" class="features-grid">
             {{-- Brand --}}
             <div>
@@ -588,15 +597,15 @@
             <div>
                 <p style="font-size:.6875rem;font-weight:700;color:#0f172a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Contacto</p>
                 <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;">
-                    <li style="font-size:.8125rem;color:#64748b;">Lab. Computación Afectiva e Innovación Educativa</li>
-                    <li style="font-size:.8125rem;color:#64748b;">cafined@itsm.edu.mx</li>
+                    <li><a href="https://cafined.org" target="_blank" rel="noopener" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Lab. Computación Afectiva e Innovación Educativa</a></li>
+                    <li><a href="mailto:cafined@itsm.edu.mx" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">cafined@itsm.edu.mx</a></li>
                 </ul>
             </div>
         </div>
 
         {{-- Bottom bar --}}
         <div style="padding-top:20px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-            <span style="font-size:.75rem;color:#94a3b8;">© {{ date('Y') }} Mindra. Todos los derechos reservados.</span>
+            <span style="font-size:.75rem;color:#94a3b8;">© {{ date('Y') }} Mindra. Todos los derechos reservados. Created by Roberto Ángel Meléndez-Armenta. Developed by edegantea.</span>
             <div style="display:flex;gap:16px;">
                 <a href="{{ route('legal.privacy') }}" style="font-size:.6875rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#94a3b8'">Privacidad</a>
                 <a href="{{ route('legal.terms') }}" style="font-size:.6875rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#94a3b8'">Términos</a>

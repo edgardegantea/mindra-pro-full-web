@@ -26,6 +26,6 @@ class Subscription extends Model
 
     public function isActive(): bool
     {
-        return $this->status === 'active' && $this->expires_at?->isFuture();
+        return $this->status === 'active' && ($this->expires_at === null || $this->expires_at->isFuture());
     }
 }

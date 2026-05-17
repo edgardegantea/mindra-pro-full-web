@@ -3,10 +3,10 @@
 
 @push('styles')
 <style>
-    .legal-body { max-width: 100%; }
+    .legal-body { max-width: 48rem; margin-left: auto; margin-right: auto; }
     .legal-section { margin-bottom: 2rem; }
-    .legal-section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .75rem; }
-    .legal-section p, .legal-section li { font-size: .9rem; color: #475569; line-height: 1.75; }
+    .legal-section h2 { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 1.5rem 0 .75rem; }
+    .legal-section p, .legal-section li { font-size: 1rem; color: #475569; line-height: 1.75; }
     .legal-section ul { padding-left: 1.25rem; margin: .5rem 0; display: flex; flex-direction: column; gap: .35rem; }
     .data-card { border-radius: 12px; border: 1px solid; padding: 1rem 1.25rem; margin-bottom: 1rem; }
 </style>

@@ -3,10 +3,10 @@
 
 @push('styles')
 <style>
-    .legal-body { max-width: 100%; }
+    .legal-body { max-width: 48rem; margin-left: auto; margin-right: auto; }
     .legal-section { margin-bottom: 2rem; }
-    .legal-section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .75rem; }
-    .legal-section p, .legal-section li { font-size: .9rem; color: #475569; line-height: 1.75; }
+    .legal-section h2 { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 1.5rem 0 .75rem; }
+    .legal-section p, .legal-section li { font-size: 1rem; color: #475569; line-height: 1.75; }
     .legal-section ul { padding-left: 1.25rem; margin: .5rem 0; display: flex; flex-direction: column; gap: .35rem; }
     .consent-check { display: flex; align-items: flex-start; gap: 10px; padding: .75rem 1rem; border-radius: 10px; background: #f0fdf4; border: 1px solid #bbf7d0; margin-bottom: .5rem; }
     .consent-check svg { flex-shrink: 0; width: 16px; height: 16px; color: #16a34a; margin-top: 1px; }

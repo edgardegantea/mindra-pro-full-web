@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\AdminController;
+use App\Http\Controllers\Web\SuperAdminController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\ChatController;
@@ -36,6 +37,50 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/',             [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/users/{user}', [AdminController::class, 'userDetail'])->name('user');
+    Route::get('/',                    [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users',               [AdminController::class, 'users'])->name('users');
+    Route::get('/users/{user}',        [AdminController::class, 'userDetail'])->name('user');
+    Route::post('/users/{user}',       [AdminController::class, 'updateUser'])->name('user.update');
+    Route::post('/users-group',        [AdminController::class, 'groupAction'])->name('users.group');
+    Route::get('/sessions',            [AdminController::class, 'sessions'])->name('sessions');
+    Route::post('/sessions/{record}',  [AdminController::class, 'deleteSession'])->name('sessions.delete');
+    Route::post('/sessions-export',    [AdminController::class, 'exportSessions'])->name('sessions.export');
+    Route::get('/reports',             [AdminController::class, 'reports'])->name('reports');
+    Route::get('/institution',         [AdminController::class, 'institution'])->name('institution');
+    Route::post('/institution',        [AdminController::class, 'updateInstitution'])->name('institution.update');
+});
+
+Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
+    Route::get('/',                     [SuperAdminController::class, 'dashboard'])->name('dashboard');
+
+    // Users
+    Route::get('/users',                [SuperAdminController::class, 'users'])->name('users');
+    Route::post('/users/{user}',        [SuperAdminController::class, 'updateUser'])->name('users.update');
+    Route::get('/users/{user}/detail',  [SuperAdminController::class, 'userDetail'])->name('users.detail');
+
+    // Institutions
+    Route::get('/institutions',              [SuperAdminController::class, 'institutions'])->name('institutions');
+    Route::post('/institutions',             [SuperAdminController::class, 'storeInstitution'])->name('institutions.store');
+    Route::get('/institutions/{institution}',[SuperAdminController::class, 'editInstitution'])->name('institutions.edit');
+    Route::put('/institutions/{institution}',[SuperAdminController::class, 'updateInstitution'])->name('institutions.update');
+
+    // Sessions
+    Route::get('/sessions',             [SuperAdminController::class, 'sessions'])->name('sessions');
+    Route::post('/sessions/{record}/delete', [SuperAdminController::class, 'deleteSession'])->name('sessions.delete');
+    Route::post('/sessions-export',     [SuperAdminController::class, 'exportSessions'])->name('sessions.export');
+
+    // Plan Requests
+    Route::get('/plan-requests',        [SuperAdminController::class, 'planRequests'])->name('plan-requests');
+    Route::post('/plan-requests/{planRequest}', [SuperAdminController::class, 'reviewPlanRequest'])->name('plan-requests.review');
+
+    // Subscriptions
+    Route::get('/subscriptions',        [SuperAdminController::class, 'subscriptions'])->name('subscriptions');
+    Route::post('/subscriptions/{subscription}', [SuperAdminController::class, 'updateSubscription'])->name('subscriptions.update');
+
+    // Groups
+    Route::get('/groups',               [SuperAdminController::class, 'groups'])->name('groups');
+    Route::post('/groups',              [SuperAdminController::class, 'storeGroup'])->name('groups.store');
+    Route::get('/groups/{group}',       [SuperAdminController::class, 'editGroup'])->name('groups.edit');
+    Route::post('/groups/{group}',      [SuperAdminController::class, 'updateGroup'])->name('groups.update');
+    Route::delete('/groups/{group}',    [SuperAdminController::class, 'deleteGroup'])->name('groups.delete');
 });
