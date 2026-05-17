@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-    .legal-body { max-width: 720px; }
+    .legal-body { max-width: 100%; }
     .legal-section { margin-bottom: 2rem; }
     .legal-section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .75rem; }
     .legal-section p, .legal-section li { font-size: .9rem; color: #475569; line-height: 1.75; }
@@ -25,12 +25,12 @@
 <div class="legal-body">
 
     <div class="legal-highlight">
-        <p>Mindra es un proyecto de investigación académica sin fines de lucro. Esta política explica de forma transparente cómo recopilamos, usamos y protegemos tu información personal.</p>
+        <p>En Mindra, la privacidad y seguridad de tus datos son nuestra prioridad. Esta política explica de forma transparente cómo recopilamos, usamos y protegemos tu información personal.</p>
     </div>
 
     <div class="legal-section">
         <h2>1. Responsable del tratamiento</h2>
-        <p>El responsable del tratamiento de datos es el equipo investigador del Laboratorio Computación Afectiva e Innovación Educativa, en el marco del proyecto Mindra — Sistema de Detección de Ansiedad mediante Procesamiento de Lenguaje Natural y Análisis de Voz.</p>
+        <p>El responsable del tratamiento de datos es <strong>Mindra</strong>, plataforma profesional de bienestar emocional asistida por inteligencia artificial, operada por el Laboratorio de Computación Afectiva e Innovación Educativa (CAFINED).</p>
     </div>
 
     <div class="legal-section">
@@ -40,7 +40,7 @@
             <li><strong>Texto e interacciones:</strong> los mensajes de texto que escribes durante el chat con Mindra.</li>
             <li><strong>Grabaciones de audio:</strong> cuando utilizas la función de voz, se captura el audio para transcripción y análisis.</li>
             <li><strong>Metadatos de uso:</strong> fecha y hora de las sesiones, dirección IP y agente de usuario (navegador), con fines de seguridad y calidad del servicio.</li>
-            <li><strong>Resultados de inferencia:</strong> puntuaciones de probabilidad de ansiedad generadas automáticamente por el modelo de IA.</li>
+            <li><strong>Resultados de análisis:</strong> puntuaciones de probabilidad de ansiedad generadas automáticamente por nuestros modelos de IA.</li>
         </ul>
     </div>
 
@@ -48,38 +48,38 @@
         <h2>3. Finalidad del tratamiento</h2>
         <ul>
             <li>Proveer el servicio de apoyo emocional y análisis de bienestar de Mindra.</li>
-            <li>Realizar investigación académica sobre detección automática de ansiedad.</li>
-            <li>Mejorar los modelos de inteligencia artificial utilizados en el proyecto.</li>
+            <li>Mejorar continuamente la precisión y calidad de nuestros modelos de inteligencia artificial.</li>
+            <li>Generar reportes agregados y anonimizados para clientes institucionales del plan Full.</li>
             <li>Garantizar la seguridad, integridad y correcto funcionamiento de la plataforma.</li>
         </ul>
     </div>
 
     <div class="legal-section">
         <h2>4. Base legal</h2>
-        <p>El tratamiento se basa en el <strong>consentimiento informado</strong> que otorgas al registrarte y aceptar estos términos, así como en el <strong>interés legítimo</strong> del proyecto de investigación, conforme a la normativa aplicable en materia de protección de datos.</p>
+        <p>El tratamiento se basa en el <strong>consentimiento informado</strong> que otorgas al registrarte y aceptar estos términos, así como en el <strong>interés legítimo</strong> de Mindra para la prestación y mejora del servicio, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y normativa aplicable.</p>
     </div>
 
     <div class="legal-section">
         <h2>5. Confidencialidad y seguridad</h2>
-        <p>Tus datos se almacenan en servidores con acceso restringido al equipo investigador. No se venden, arriendan ni comparten con terceros con fines comerciales. Se aplican medidas técnicas (cifrado en tránsito, control de acceso) para proteger la integridad de la información.</p>
+        <p>Tus datos se almacenan en servidores con acceso restringido y medidas de seguridad de nivel empresarial. No se venden, arriendan ni comparten con terceros con fines comerciales. Se aplican medidas técnicas (cifrado en tránsito y reposo, control de acceso basado en roles, monitoreo de seguridad) para proteger la integridad de la información.</p>
     </div>
 
     <div class="legal-section">
         <h2>6. Período de conservación</h2>
-        <p>Los datos se conservarán durante el período activo de la investigación y hasta <strong>5 años</strong> posteriores a la publicación de los resultados, conforme a los requisitos de reproducibilidad científica. Transcurrido ese plazo serán eliminados o anonimizados de forma irreversible.</p>
+        <p>Los datos se conservarán mientras tu cuenta esté activa y durante un período de <strong>2 años</strong> posteriores a la cancelación de la misma, salvo obligación legal que exija un plazo mayor. Transcurrido ese período, los datos serán eliminados o anonimizados de forma irreversible.</p>
     </div>
 
     <div class="legal-section">
         <h2>7. Tus derechos</h2>
-        <p>Puedes ejercer en cualquier momento los siguientes derechos:</p>
+        <p>Puedes ejercer en cualquier momento los siguientes derechos (derechos ARCO):</p>
         <ul>
             <li><strong>Acceso:</strong> conocer qué datos personales tenemos sobre ti.</li>
             <li><strong>Rectificación:</strong> corregir datos inexactos o incompletos.</li>
-            <li><strong>Supresión:</strong> solicitar la eliminación de tus datos ("derecho al olvido").</li>
+            <li><strong>Cancelación:</strong> solicitar la eliminación de tus datos ("derecho al olvido").</li>
+            <li><strong>Oposición:</strong> oponerte al uso de tus datos para determinados fines.</li>
             <li><strong>Portabilidad:</strong> recibir tus datos en formato estructurado y legible.</li>
-            <li><strong>Oposición:</strong> oponerte al uso de tus datos para investigación.</li>
         </ul>
-        <p style="margin-top:.75rem;">Para ejercer estos derechos, contacta al equipo investigador desde la sección <strong>Contacto</strong> del pie de página.</p>
+        <p style="margin-top:.75rem;">Para ejercer estos derechos, contacta a nuestro equipo a través de <strong>cafined@itsm.edu.mx</strong>.</p>
     </div>
 
     <div class="legal-section">

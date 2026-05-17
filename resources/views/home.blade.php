@@ -1,306 +1,539 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mindra — IA para el Bienestar Emocional</title>
+    <link rel="icon" type="image/png" href="/assets/img/mindra1.png">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Instrument Sans', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #0f172a; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; }
 
         .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+            background: rgba(255,255,255,.85);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(226,232,240,.6);
         }
+        .nav-inner {
+            max-width: 100%; margin: 0 auto; padding: 0 2.5rem;
+            height: 64px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; align-items: center; gap: 24px; font-size: .8125rem; font-weight: 600; }
+        .nav-links a { color: #64748b; transition: color .15s; }
+        .nav-links a:hover { color: #4f46e5; }
+        .nav-divider { width: 1px; height: 16px; background: #e2e8f0; }
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px 22px; border-radius: 12px; font-size: .875rem; font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #6366f1, #9333ea); color: #fff;
+            box-shadow: 0 4px 14px rgba(99,102,241,.35); transition: all .2s;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(147,51,234,.4); }
+        .btn-secondary {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px 22px; border-radius: 12px; font-size: .875rem; font-weight: 700;
+            background: #fff; color: #334155; border: 1.5px solid #e2e8f0; transition: all .2s;
+        }
+        .btn-secondary:hover { border-color: #a78bfa; background: #f5f3ff; }
+        .btn-dark {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 28px; border-radius: 14px; font-size: .9375rem; font-weight: 700;
+            background: #0f172a; color: #fff; transition: all .2s;
+        }
+        .btn-dark:hover { background: linear-gradient(135deg, #38bdf8, #6366f1, #9333ea); }
 
-        .hero-gradient {
-            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 40%),
-            radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.05), transparent 40%);
-        }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+        .anim-fade { animation: fadeUp .6s ease-out both; }
+        .anim-fade-d1 { animation-delay: .1s; }
+        .anim-fade-d2 { animation-delay: .25s; }
+        .anim-fade-d3 { animation-delay: .4s; }
 
-        .ai-glow {
-            box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.15);
-        }
-
-        /* Estandarización de componentes de chat (Basado en tu layout) */
-        .bubble-user {
-            background: #4f46e5;
-            color: #fff;
-            border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
-            padding: 0.875rem 1.25rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.15);
-            display: inline-block;
-            max-width: 85%;
-        }
-
-        .bubble-mindra {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            color: #475569;
-            border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
-            padding: 0.875rem 1.25rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            display: inline-block;
-            max-width: 85%;
-        }
-
-        /* Animación faltante para el badge del Hero */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+        @media (max-width: 768px) {
+            .hero-grid { flex-direction: column !important; }
+            .hero-text { text-align: center; }
+            .hero-text h1 { font-size: 2.25rem !important; }
+            .hero-ctas { justify-content: center !important; }
+            .steps-grid { grid-template-columns: 1fr !important; }
+            .features-grid { grid-template-columns: 1fr !important; }
+            .cta-title { font-size: 2rem !important; }
+            .nav-links-desktop { display: none !important; }
         }
     </style>
 </head>
-<body class="min-h-screen bg-white text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+<body>
 
-{{-- ── Header ──────────────────────────────────────────────────────────────── --}}
-<header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-slate-200/60">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="relative">
-                <img src="/assets/img/mindra1.jpeg" alt="" class="h-9 w-9 rounded-full object-cover border-2 border-white shadow-md">
-                <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
-            </div>
-            <img src="/assets/img/mindra2.png" alt="Mindra" class="h-8 w-auto">
-        </div>
+{{-- ── Nav ──────────────────────────────────────────────────────────────────── --}}
+<header class="glass-nav">
+    <div class="nav-inner">
+        <a href="{{ route('home') }}" class="nav-brand">
+            <img src="/assets/img/mindra1.png" alt="" style="height:40px;width:auto;">
+            <img src="/assets/img/mindra2.png" alt="Mindra" style="height:80px;width:auto;">
+        </a>
 
-        <nav class="hidden md:flex items-center gap-8 text-[13px] font-semibold">
-            <a href="#como-funciona" class="text-slate-500 hover:text-indigo-600 transition-colors">Cómo funciona</a>
-            <a href="#beneficios" class="text-slate-500 hover:text-indigo-600 transition-colors">Beneficios</a>
-            <div class="h-4 w-px bg-slate-200"></div>
+        <nav class="nav-links nav-links-desktop">
+            <a href="#como-funciona">Cómo funciona</a>
+            <a href="#planes">Planes</a>
+            <a href="#beneficios">Beneficios</a>
+            <span class="nav-divider"></span>
             @auth
-                <a href="{{ route('dashboard') }}" class="text-indigo-600 hover:text-indigo-700 flex items-center gap-1.5">
-                    Ir al Dashboard
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
-                        <path fill-rule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clip-rule="evenodd" />
-                    </svg>
-                </a>
+                <a href="{{ route('dashboard') }}" style="color:#4f46e5;">Mi dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="text-slate-600 hover:text-slate-900 transition-colors">Iniciar sesión</a>
-                <a href="{{ route('register') }}" class="bg-slate-900 text-white px-5 py-2 rounded-full hover:bg-indigo-600 transition-all shadow-sm">
-                    Empezar gratis
-                </a>
+                <a href="{{ route('login') }}">Iniciar sesión</a>
+                <a href="{{ route('register') }}" class="btn-primary" style="padding:8px 18px;font-size:.8125rem;color:#fff;">Empezar gratis</a>
             @endauth
         </nav>
     </div>
 </header>
 
-{{-- ── Hero Section ────────────────────────────────────────────────────────── --}}
-<section id="inicio" class="relative pt-40 pb-24 px-6 hero-gradient overflow-hidden">
-    <div class="max-w-5xl mx-auto text-center relative z-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-8 animate-fade-in">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+{{-- ── Hero ─────────────────────────────────────────────────────────────────── --}}
+<section style="padding:120px 1.5rem 80px;background:linear-gradient(160deg,#f8faff 0%,#fff 40%,#f0f0ff 100%);position:relative;overflow:hidden;">
+    {{-- Decorative blobs --}}
+    <div style="position:absolute;top:-100px;right:-100px;width:450px;height:450px;background:radial-gradient(circle,rgba(99,102,241,.08),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-120px;left:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.06),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
+
+    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;display:flex;align-items:center;gap:60px;" class="hero-grid">
+
+        {{-- Text --}}
+        <div style="flex:1;min-width:0;" class="hero-text">
+            <div class="anim-fade" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:9999px;background:#eef2ff;border:1px solid #c7d2fe;font-size:.75rem;font-weight:700;color:#4338ca;margin-bottom:24px;">
+                <span style="position:relative;display:flex;width:8px;height:8px;">
+                    <span style="position:absolute;inset:0;border-radius:9999px;background:#818cf8;opacity:.6;animation:float 2s ease-in-out infinite;"></span>
+                    <span style="position:relative;width:8px;height:8px;border-radius:9999px;background:#4f46e5;"></span>
                 </span>
-            NUEVA INTELIGENCIA EMOCIONAL
-        </div>
-        <h1 class="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-8 leading-[1.1]">
-            Comprende tu bienestar con <br>
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">IA de vanguardia</span>
-        </h1>
-        <p class="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
-            Mindra detecta patrones emocionales a través del lenguaje natural, brindándote un espacio seguro y privado para tu crecimiento personal.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
-            @auth
-                <a href="{{ route('chat') }}" class="w-full sm:w-auto px-10 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all flex items-center justify-center gap-2 group text-lg">
-                    Continuar al Chat
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 group-hover:translate-x-1 transition-transform">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                </a>
-            @else
-                <a href="{{ route('register') }}" class="w-full sm:w-auto px-10 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all flex items-center justify-center gap-2 text-lg">
-                    Prueba Mindra ahora
-                </a>
-                <a href="#como-funciona" class="w-full sm:w-auto px-10 py-4 bg-white text-slate-700 font-bold rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg">
-                    Saber más
-                </a>
-            @endauth
+                INTELIGENCIA EMOCIONAL CON IA
+            </div>
+
+            <h1 class="anim-fade anim-fade-d1" style="font-size:3.25rem;font-weight:900;line-height:1.1;letter-spacing:-.02em;margin-bottom:20px;">
+                Comprende tu bienestar<br>
+                <span style="background:linear-gradient(135deg,#38bdf8,#6366f1,#9333ea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">con IA de vanguardia</span>
+            </h1>
+
+            <p class="anim-fade anim-fade-d2" style="font-size:1.125rem;color:#475569;line-height:1.7;max-width:520px;margin-bottom:32px;">
+                Mindra detecta patrones emocionales a través del lenguaje natural y la voz, brindándote un espacio seguro y privado para tu crecimiento personal.
+            </p>
+
+            <div class="anim-fade anim-fade-d3 hero-ctas" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                @auth
+                    <a href="{{ route('chat') }}" class="btn-primary" style="padding:14px 28px;font-size:1rem;">
+                        Ir al Chat
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:16px;height:16px;"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/></svg>
+                    </a>
+                    <a href="{{ route('dashboard') }}" class="btn-secondary">Ver historial</a>
+                @else
+                    <a href="{{ route('register') }}" class="btn-primary" style="padding:14px 28px;font-size:1rem;">Prueba Mindra gratis</a>
+                    <a href="#como-funciona" class="btn-secondary">Saber más</a>
+                @endauth
+            </div>
         </div>
 
-        <div class="mt-24 max-w-3xl mx-auto relative group">
-            <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
-            <div class="relative bg-white rounded-[2rem] p-2 shadow-2xl border border-slate-100 ai-glow">
-                <div class="bg-slate-50/50 rounded-[1.8rem] p-6 text-left">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-indigo-200">M</div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-900">Mindra AI</p>
-                            <p class="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5 uppercase tracking-wider">
-                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                                En línea ahora
-                            </p>
+        {{-- Chat mockup --}}
+        <div style="flex:0 0 380px;position:relative;" class="anim-fade anim-fade-d3">
+            <div style="position:absolute;inset:-4px;background:linear-gradient(135deg,#38bdf8,#6366f1,#9333ea);border-radius:28px;opacity:.08;filter:blur(2px);"></div>
+            <div style="position:relative;background:#fff;border-radius:24px;border:1px solid #e8edf5;padding:24px;box-shadow:0 8px 40px rgba(0,0,0,.08),0 2px 8px rgba(0,0,0,.04);">
+                {{-- Header --}}
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #f1f5f9;">
+                    <div style="width:36px;height:36px;border-radius:9999px;overflow:hidden;border:2px solid #c7d2fe;box-shadow:0 2px 6px rgba(99,102,241,.15);">
+                        <img src="/assets/img/mindra1.png" alt="" style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div>
+                        <p style="font-size:.8125rem;font-weight:700;color:#1e293b;">Mindra</p>
+                        <p style="font-size:.625rem;color:#22c55e;font-weight:600;display:flex;align-items:center;gap:4px;">
+                            <span style="width:5px;height:5px;background:#22c55e;border-radius:9999px;display:inline-block;"></span>
+                            En línea
+                        </p>
+                    </div>
+                </div>
+                {{-- Messages --}}
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="background:#fff;border:1px solid #e8edf5;color:#334155;font-size:.8125rem;line-height:1.6;padding:10px 13px;border-radius:16px 16px 16px 4px;box-shadow:0 1px 3px rgba(0,0,0,.05);max-width:90%;">
+                        Hola, soy Mindra. ¿Cómo te has sentido hoy? Estoy aquí para escucharte.
+                    </div>
+                    <div style="align-self:flex-end;background:linear-gradient(135deg,#38bdf8,#6366f1,#9333ea);color:#fff;font-size:.8125rem;line-height:1.6;padding:10px 13px;border-radius:16px 16px 4px 16px;box-shadow:0 2px 8px rgba(79,70,229,.25);max-width:85%;">
+                        Me he sentido un poco abrumado con el trabajo...
+                    </div>
+                    <div style="background:#fff;border:1px solid #e8edf5;color:#334155;font-size:.8125rem;line-height:1.6;padding:10px 13px;border-radius:16px 16px 16px 4px;box-shadow:0 1px 3px rgba(0,0,0,.05);max-width:90%;">
+                        Entiendo. Esa sensación es válida. ¿Qué aspectos están pesando más hoy?
+                    </div>
+                    {{-- Anxiety indicator --}}
+                    <div style="background:#fff;border:1px solid #e8edf5;border-radius:12px;padding:9px 11px;box-shadow:0 1px 3px rgba(0,0,0,.04);max-width:75%;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                            <span style="font-size:.5625rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;">Nivel de ansiedad</span>
+                            <span style="font-size:.6875rem;font-weight:800;color:#d97706;">42%</span>
+                        </div>
+                        <div style="height:4px;border-radius:9999px;background:#f1f5f9;overflow:hidden;">
+                            <div style="height:100%;width:42%;border-radius:9999px;background:linear-gradient(90deg,#fbbf24,#f59e0b);"></div>
                         </div>
                     </div>
-
-                    {{-- Mockup Chat usando el estilo estándar --}}
-                    <div class="space-y-4 max-w-xl">
-                        <div class="flex">
-                            <div class="bubble-mindra">
-                                Hola, estoy aquí para escucharte. ¿Cómo te has sentido en estos últimos días? Este es un espacio seguro para expresarte sin juicios.
-                            </div>
-                        </div>
-                        <div class="flex justify-end">
-                            <div class="bubble-user">
-                                Me he sentido un poco abrumado con el trabajo últimamente...
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="bubble-mindra border-l-4 border-l-indigo-500">
-                                Entiendo. Esa sensación de abrumo es válida. ¿Podrías contarme qué aspectos del trabajo están pesando más hoy?
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-{{-- ── Como Funciona ────────────────────────────────────────────────────────── --}}
-<section id="como-funciona" class="py-32 bg-white relative">
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-20">
-            <h2 class="text-sm font-bold text-indigo-600 uppercase tracking-[0.2em] mb-4">Proceso Inteligente</h2>
-            <p class="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Cómo funciona Mindra</p>
+{{-- ── Cómo funciona ────────────────────────────────────────────────────────── --}}
+<section id="como-funciona" style="padding:100px 1.5rem;background:#fff;">
+    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+        <div style="text-align:center;margin-bottom:60px;">
+            <span style="font-size:.75rem;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:10px;">Proceso inteligente</span>
+            <h2 style="font-size:2.5rem;font-weight:900;color:#0f172a;letter-spacing:-.02em;">Cómo funciona Mindra</h2>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-10">
-            <div class="group p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-indigo-100/50 transition-all duration-500">
-                <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-indigo-600 mb-8 shadow-sm group-hover:scale-110 transition-transform duration-500 border border-slate-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3h9m-9 3h9m-6.75-12.75h3.375c.621 0 1.125.504 1.125 1.125v17.25c0 .621-.504 1.125-1.125 1.125H6.375c-.621 0-1.125-.504-1.125-1.125V3.375c0-.621.504-1.125 1.125-1.125Z" />
+        <div class="steps-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+            {{-- Step 1 --}}
+            <div style="padding:32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;"
+                 onmouseover="this.style.background='#fff';this.style.boxShadow='0 8px 30px rgba(99,102,241,.1)';this.style.borderColor='#e0e7ff';"
+                 onmouseout="this.style.background='#f8fafc';this.style.boxShadow='none';this.style.borderColor='#f1f5f9';">
+                <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 12px rgba(99,102,241,.1);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;">
+                        <path d="M12 18.75C15.3137 18.75 18 16.0637 18 12.75V11.25C18 7.93629 15.3137 5.25 12 5.25C8.68629 5.25 6 7.93629 6 11.25V12.75C6 16.0637 8.68629 18.75 12 18.75Z" fill="#c7d2fe"/>
+                        <path d="M12 2.25C9.92893 2.25 8.25 3.92893 8.25 6V12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12V6C15.75 3.92893 14.0711 2.25 12 2.25Z" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19.5 12C19.5 16.1421 16.1421 19.5 12 19.5C7.85786 19.5 4.5 16.1421 4.5 12" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 19.5V22.5" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 22.5H15" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.75 8.25H14.25" stroke="#4f46e5" stroke-width="1" stroke-linecap="round" opacity=".5"/>
+                        <path d="M8.25 10.5H15.75" stroke="#4f46e5" stroke-width="1" stroke-linecap="round" opacity=".5"/>
+                        <path d="M9.75 12.75H14.25" stroke="#4f46e5" stroke-width="1" stroke-linecap="round" opacity=".5"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-4 text-slate-900">1. Exprésate</h3>
-                <p class="text-slate-500 leading-relaxed">
-                    Habla o escribe libremente sobre lo que sientes. Nuestra tecnología procesa tus palabras con total confidencialidad y empatía digital.
+                <div style="font-size:.6875rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Paso 1</div>
+                <h3 style="font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Exprésate</h3>
+                <p style="font-size:.875rem;color:#64748b;line-height:1.7;">
+                    Escribe o graba un audio sobre cómo te sientes. Nuestra IA procesa tu expresión con total confidencialidad.
                 </p>
             </div>
 
-            <div class="group p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-indigo-100/50 transition-all duration-500">
-                <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-violet-600 mb-8 shadow-sm group-hover:scale-110 transition-transform duration-500 border border-slate-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
+            {{-- Step 2 --}}
+            <div style="padding:32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;"
+                 onmouseover="this.style.background='#fff';this.style.boxShadow='0 8px 30px rgba(139,92,246,.1)';this.style.borderColor='#ede9fe';"
+                 onmouseout="this.style.background='#f8fafc';this.style.boxShadow='none';this.style.borderColor='#f1f5f9';">
+                <div style="width:48px;height:48px;border-radius:14px;background:#f5f3ff;border:1px solid #ddd6fe;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#7c3aed" style="width:24px;height:24px;">
+                        <path fill-rule="evenodd" d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 8.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5Z" clip-rule="evenodd"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-4 text-slate-900">2. Análisis IA</h3>
-                <p class="text-slate-500 leading-relaxed">
-                    Utilizamos modelos lingüísticos avanzados para identificar indicadores de bienestar y niveles de ansiedad en tiempo real con alta precisión.
+                <div style="font-size:.6875rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Paso 2</div>
+                <h3 style="font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Análisis IA</h3>
+                <p style="font-size:.875rem;color:#64748b;line-height:1.7;">
+                    Modelos de procesamiento de lenguaje natural identifican indicadores de bienestar y niveles de ansiedad en tiempo real.
                 </p>
             </div>
 
-            <div class="group p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-indigo-100/50 transition-all duration-500">
-                <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-emerald-600 mb-8 shadow-sm group-hover:scale-110 transition-transform duration-500 border border-slate-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+            {{-- Step 3 --}}
+            <div style="padding:32px;border-radius:24px;background:#f8fafc;border:1px solid #f1f5f9;transition:all .3s;"
+                 onmouseover="this.style.background='#fff';this.style.boxShadow='0 8px 30px rgba(16,185,129,.1)';this.style.borderColor='#d1fae5';"
+                 onmouseout="this.style.background='#f8fafc';this.style.boxShadow='none';this.style.borderColor='#f1f5f9';">
+                <div style="width:48px;height:48px;border-radius:14px;background:#f0fdf4;border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#16a34a" style="width:24px;height:24px;">
+                        <path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-4 text-slate-900">3. Evolución</h3>
-                <p class="text-slate-500 leading-relaxed">
-                    Visualiza tu progreso histórico con gráficos intuitivos y recibe recomendaciones personalizadas basadas en tu evolución emocional.
+                <div style="font-size:.6875rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Paso 3</div>
+                <h3 style="font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Evolución</h3>
+                <p style="font-size:.875rem;color:#64748b;line-height:1.7;">
+                    Visualiza tu progreso con un historial detallado y recibe recomendaciones personalizadas para tu bienestar.
                 </p>
             </div>
         </div>
     </div>
 </section>
 
-{{-- ── Beneficios ──────────────────────────────────────────────────────────── --}}
-<section id="beneficios" class="py-32 px-6 bg-slate-50/50 border-y border-slate-100">
-    <div class="max-w-6xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-20 items-center">
-            <div class="order-2 lg:order-1">
-                <div class="bg-white rounded-[2.5rem] p-4 shadow-2xl border border-slate-100 relative group overflow-hidden">
-                    <div class="absolute inset-0 bg-indigo-600 opacity-0 group-hover:opacity-5 transition-opacity duration-700"></div>
-                    <img src="/assets/img/mindra1.jpeg" alt="Bienestar" class="w-full h-auto object-cover rounded-[2rem] shadow-inner">
-                    <div class="absolute bottom-10 left-10 right-10 bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white shadow-xl">
-                        <p class="text-slate-900 font-bold mb-1">Privacidad por diseño</p>
-                        <p class="text-slate-500 text-sm">Tus conversaciones están encriptadas y son 100% privadas.</p>
-                    </div>
+{{-- ── Beneficios ───────────────────────────────────────────────────────────── --}}
+<section id="beneficios" style="padding:100px 1.5rem;background:#f8fafc;border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9;">
+    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+        <div style="text-align:center;margin-bottom:60px;">
+            <span style="font-size:.75rem;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:10px;">Por qué elegir Mindra</span>
+            <h2 style="font-size:2.5rem;font-weight:900;color:#0f172a;letter-spacing:-.02em;">Privacidad y rigor científico</h2>
+        </div>
+
+        <div class="features-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;">
+            {{-- Feature 1 --}}
+            <div style="display:flex;gap:16px;padding:24px;border-radius:18px;background:#fff;border:1px solid #e8edf5;transition:box-shadow .2s;"
+                 onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,.06)'" onmouseout="this.style.boxShadow='none'">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#16a34a" style="width:22px;height:22px;">
+                        <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:4px;">Confidencialidad total</h4>
+                    <p style="font-size:.8125rem;color:#64748b;line-height:1.65;">Tus datos nunca se comparten con terceros. Cifrado en tránsito y almacenamiento restringido.</p>
                 </div>
             </div>
-            <div class="order-1 lg:order-2">
-                <h2 class="text-sm font-bold text-indigo-600 uppercase tracking-[0.2em] mb-4">Por qué elegirnos</h2>
-                <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-10 leading-tight tracking-tight">Privacidad y rigor técnico para tu tranquilidad</h2>
-                <ul class="space-y-8">
-                    <li class="flex gap-5">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-900 mb-1">Confidencialidad Absoluta</h4>
-                            <p class="text-slate-500 leading-relaxed">Cumplimos con los estándares más estrictos de protección de datos para que te sientas seguro al expresarte.</p>
-                        </div>
+
+            {{-- Feature 2 --}}
+            <div style="display:flex;gap:16px;padding:24px;border-radius:18px;background:#fff;border:1px solid #e8edf5;transition:box-shadow .2s;"
+                 onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,.06)'" onmouseout="this.style.boxShadow='none'">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:#eef2ff;border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4f46e5" style="width:22px;height:22px;">
+                        <path fill-rule="evenodd" d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 8.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5Z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:4px;">Base científica</h4>
+                    <p style="font-size:.8125rem;color:#64748b;line-height:1.65;">Desarrollado por investigadores en computación afectiva con modelos validados académicamente.</p>
+                </div>
+            </div>
+
+            {{-- Feature 3 --}}
+            <div style="display:flex;gap:16px;padding:24px;border-radius:18px;background:#fff;border:1px solid #e8edf5;transition:box-shadow .2s;"
+                 onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,.06)'" onmouseout="this.style.boxShadow='none'">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:#f5f3ff;border:1px solid #ddd6fe;display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#7c3aed" style="width:22px;height:22px;">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:4px;">Disponibilidad 24/7</h4>
+                    <p style="font-size:.8125rem;color:#64748b;line-height:1.65;">Acceso inmediato a apoyo emocional inteligente desde cualquier dispositivo, en cualquier momento.</p>
+                </div>
+            </div>
+
+            {{-- Feature 4 --}}
+            <div style="display:flex;gap:16px;padding:24px;border-radius:18px;background:#fff;border:1px solid #e8edf5;transition:box-shadow .2s;"
+                 onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,.06)'" onmouseout="this.style.boxShadow='none'">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#d97706" style="width:22px;height:22px;">
+                        <path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:4px;">Historial y métricas</h4>
+                    <p style="font-size:.8125rem;color:#64748b;line-height:1.65;">Calendario de bienestar, sesiones detalladas y evolución de tu estado emocional en el tiempo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ── Planes ───────────────────────────────────────────────────────────────── --}}
+<section id="planes" style="padding:100px 1.5rem;background:#fff;">
+    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+        <div style="text-align:center;margin-bottom:60px;">
+            <span style="font-size:.75rem;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:10px;">Elige tu plan</span>
+            <h2 style="font-size:2.5rem;font-weight:900;color:#0f172a;letter-spacing:-.02em;">Un plan para cada necesidad</h2>
+            <p style="font-size:1rem;color:#64748b;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">
+                Desde uso personal gratuito hasta implementaciones institucionales completas.
+            </p>
+        </div>
+
+        <div class="steps-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch;">
+
+            {{-- Plan Free --}}
+            <div style="display:flex;flex-direction:column;padding:36px 28px;border-radius:24px;background:#f8fafc;border:1px solid #e8edf5;transition:all .3s;"
+                 onmouseover="this.style.boxShadow='0 8px 30px rgba(0,0,0,.07)';this.style.borderColor='#c7d2fe';"
+                 onmouseout="this.style.boxShadow='none';this.style.borderColor='#e8edf5';">
+                <div style="margin-bottom:20px;">
+                    <div style="width:56px;height:56px;border-radius:16px;background:#f0fdf4;border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:30px;height:30px;" fill="none" stroke="#16a34a" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <h3 style="font-size:1.375rem;font-weight:800;color:#0f172a;margin-bottom:4px;">Free</h3>
+                <p style="font-size:.8125rem;color:#64748b;margin-bottom:20px;line-height:1.6;">Acceso básico y gratuito para uso personal.</p>
+                <div style="margin-bottom:24px;">
+                    <span style="font-size:2.5rem;font-weight:900;color:#0f172a;">$0.00</span>
+                    <span style="font-size:.875rem;color:#94a3b8;font-weight:500;"> MXN / siempre</span>
+                </div>
+                <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#16a34a" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Chat con IA (texto)
                     </li>
-                    <li class="flex gap-5">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd" />
-                                <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-900 mb-1">Ciencia y Tecnología</h4>
-                            <p class="text-slate-500 leading-relaxed">Desarrollado por expertos en psicología y computación afectiva para ofrecerte resultados con base científica.</p>
-                        </div>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#16a34a" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Detección de ansiedad básica
                     </li>
-                    <li class="flex gap-5">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600 border border-violet-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-900 mb-1">Disponibilidad Inmediata</h4>
-                            <p class="text-slate-500 leading-relaxed">Acceso instantáneo a un apoyo inteligente en cualquier momento, desde cualquier dispositivo.</p>
-                        </div>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#16a34a" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Historial limitado (7 días)
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#16a34a" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        App móvil + versión web
                     </li>
                 </ul>
+                <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;">
+                    <a href="https://free.mindra.cafined.org" class="btn-secondary" style="width:100%;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:16px;height:16px;"><path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Zm7.876-2.326a.75.75 0 0 1 .75-.75h3.498a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0V5.31l-5.22 5.22a.75.75 0 1 1-1.06-1.06l5.22-5.22h-1.69a.75.75 0 0 1-.748-.576Z" clip-rule="evenodd"/></svg>
+                        Versión Web
+                    </a>
+                    <a href="#" class="btn-secondary" style="width:100%;justify-content:center;background:#f0fdf4;border-color:#bbf7d0;color:#15803d;"
+                       onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:16px;height:16px;"><path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/></svg>
+                        Descargar APK
+                    </a>
+                </div>
+            </div>
+
+            {{-- Plan Pro --}}
+            <div style="display:flex;flex-direction:column;padding:36px 28px;border-radius:24px;background:linear-gradient(160deg,#eef2ff,#fff);border:2px solid #4f46e5;position:relative;transition:all .3s;box-shadow:0 8px 30px rgba(79,70,229,.12);">
+                {{-- Badge Popular --}}
+                <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#38bdf8,#6366f1,#9333ea);color:#fff;font-size:.6875rem;font-weight:800;padding:5px 16px;border-radius:9999px;text-transform:uppercase;letter-spacing:.06em;box-shadow:0 4px 12px rgba(79,70,229,.3);">
+                    Más popular
+                </div>
+                <div style="margin-bottom:20px;">
+                    <div style="width:56px;height:56px;border-radius:16px;background:#eef2ff;border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:30px;height:30px;" fill="none" stroke="#4f46e5" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <h3 style="font-size:1.375rem;font-weight:800;color:#0f172a;margin-bottom:4px;">Pro</h3>
+                <p style="font-size:.8125rem;color:#64748b;margin-bottom:20px;line-height:1.6;">Todo lo básico más análisis avanzados y audio.</p>
+                <div style="margin-bottom:24px;">
+                    <span style="font-size:2.5rem;font-weight:900;color:#4f46e5;">$149</span>
+                    <span style="font-size:.875rem;color:#94a3b8;font-weight:500;"> MXN / mes</span>
+                </div>
+                <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4f46e5" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Todo lo del plan Free
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4f46e5" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Análisis por audio (voz)
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4f46e5" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Historial completo ilimitado
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4f46e5" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Recomendaciones personalizadas
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#475569;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4f46e5" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Soporte prioritario
+                    </li>
+                </ul>
+                <div style="margin-top:auto;">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="btn-primary" style="width:100%;justify-content:center;padding:14px 24px;">
+                            Suscribirme ahora
+                        </a>
+                    @else
+                        <a href="{{ route('register') }}" class="btn-primary" style="width:100%;justify-content:center;padding:14px 24px;">
+                            Suscribirme ahora
+                        </a>
+                        <p style="text-align:center;margin-top:10px;font-size:.75rem;color:#64748b;">
+                            ¿Ya tienes cuenta? <a href="{{ route('login') }}" style="color:#4f46e5;font-weight:600;">Inicia sesión</a>
+                        </p>
+                    @endauth
+                </div>
+            </div>
+
+            {{-- Plan Full --}}
+            <div style="display:flex;flex-direction:column;padding:36px 28px;border-radius:24px;background:#0f172a;border:1px solid #1e293b;transition:all .3s;"
+                 onmouseover="this.style.boxShadow='0 8px 30px rgba(15,23,42,.4)'" onmouseout="this.style.boxShadow='none'">
+                <div style="margin-bottom:20px;">
+                    <div style="width:56px;height:56px;border-radius:16px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:30px;height:30px;" fill="none" stroke="#a78bfa" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3 0h.008v.008H18V7.5Zm0 3h.008v.008H18v-.008Zm0 3h.008v.008H18v-.008Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:4px;">Full</h3>
+                <p style="font-size:.8125rem;color:#94a3b8;margin-bottom:20px;line-height:1.6;">Solución institucional completa y personalizada.</p>
+                <div style="margin-bottom:24px;">
+                    <span style="font-size:1.5rem;font-weight:900;color:#fff;">A medida</span>
+                    <span style="font-size:.875rem;color:#64748b;font-weight:500;display:block;margin-top:2px;">Según usuarios y necesidades</span>
+                </div>
+                <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:10px;">
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#cbd5e1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#a78bfa" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Todo lo del plan Pro
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#cbd5e1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#a78bfa" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Panel administrativo institucional
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#cbd5e1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#a78bfa" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Reportes agregados por grupo
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#cbd5e1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#a78bfa" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Usuarios ilimitados
+                    </li>
+                    <li style="display:flex;align-items:center;gap:8px;font-size:.8125rem;color:#cbd5e1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#a78bfa" style="width:16px;height:16px;flex-shrink:0;"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                        Implementación y soporte dedicado
+                    </li>
+                </ul>
+                <div style="margin-top:auto;">
+                    <a href="{{ route('plans.full') }}" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 24px;border-radius:12px;font-size:.875rem;font-weight:700;background:linear-gradient(135deg,#38bdf8,#6366f1,#9333ea);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.3);transition:all .2s;"
+                       onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(124,58,237,.4)'"
+                       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 14px rgba(124,58,237,.3)'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:16px;height:16px;"><path d="M2.003 5.884 10 9.882l7.997-3.998A2 2 0 0 0 16 4H4a2 2 0 0 0-1.997 1.884Z"/><path d="m18 8.118-8 4-8-4V14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.118Z"/></svg>
+                        Solicitar información
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-{{-- ── CTA Section ─────────────────────────────────────────────────────────── --}}
-<section class="py-32 px-6">
-    <div class="max-w-5xl mx-auto bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
-        <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px]"></div>
-        <div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[120px]"></div>
+{{-- ── Privacidad ───────────────────────────────────────────────────────────── --}}
+<section id="privacidad-section" style="padding:80px 1.5rem;background:#fff;">
+    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+        <div style="border-radius:24px;background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1px solid #c7d2fe;padding:40px;display:flex;align-items:flex-start;gap:20px;">
+            <div style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:#fff;border:1px solid #c7d2fe;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(99,102,241,.1);">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4f46e5" style="width:26px;height:26px;">
+                    <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <div>
+                <h3 style="font-size:1.25rem;font-weight:800;color:#1e1b4b;margin-bottom:8px;">Tu privacidad es nuestra prioridad</h3>
+                <p style="font-size:.9rem;color:#475569;line-height:1.75;margin-bottom:16px;">
+                    Los textos y audios que compartes se procesan de forma confidencial y se utilizan exclusivamente para mejorar tu experiencia. No se comparten con terceros ni se emplean con fines comerciales. Puedes solicitar la eliminación de tus datos en cualquier momento.
+                </p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <a href="{{ route('legal.privacy') }}" style="font-size:.8125rem;font-weight:600;color:#4f46e5;padding:6px 14px;border-radius:9999px;background:#fff;border:1px solid #c7d2fe;transition:all .15s;"
+                       onmouseover="this.style.background='#4f46e5';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#4f46e5'">
+                        Política de privacidad
+                    </a>
+                    <a href="{{ route('legal.consent') }}" style="font-size:.8125rem;font-weight:600;color:#4f46e5;padding:6px 14px;border-radius:9999px;background:#fff;border:1px solid #c7d2fe;transition:all .15s;"
+                       onmouseover="this.style.background='#4f46e5';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#4f46e5'">
+                        Consentimiento informado
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <h2 class="text-4xl md:text-6xl font-bold text-white mb-8 relative z-10 leading-[1.1]">
-            Toma el control de tu <br> claridad emocional
+{{-- ── CTA ──────────────────────────────────────────────────────────────────── --}}
+<section style="padding:100px 1.5rem;">
+    <div style="max-width:100%;margin:0 auto;background:#0f172a;border-radius:32px;padding:64px 48px;text-align:center;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(15,23,42,.3);">
+        {{-- Glow --}}
+        <div style="position:absolute;top:-100px;right:-60px;width:350px;height:350px;background:radial-gradient(circle,rgba(99,102,241,.25),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-80px;left:-40px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:9999px;pointer-events:none;"></div>
+
+        <h2 class="cta-title" style="font-size:2.75rem;font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;position:relative;z-index:1;">
+            Toma el control de tu<br>bienestar emocional
         </h2>
-        <p class="text-slate-400 mb-12 relative z-10 max-w-xl mx-auto text-lg leading-relaxed">
-            Únete a miles de personas que ya utilizan Mindra para entender mejor su bienestar a través de la inteligencia artificial.
+        <p style="font-size:1.0625rem;color:#94a3b8;line-height:1.7;max-width:480px;margin:0 auto 32px;position:relative;z-index:1;">
+            Comienza a entender mejor tus emociones con el apoyo de inteligencia artificial. Es gratis, confidencial y accesible.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-5 relative z-10">
+        <div style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;position:relative;z-index:1;">
             @auth
-                <a href="{{ route('dashboard') }}" class="w-full sm:w-auto px-12 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition-all text-lg shadow-xl shadow-indigo-900/40">
-                    Ver mi progreso
-                </a>
+                <a href="{{ route('chat') }}" class="btn-primary" style="padding:14px 32px;font-size:1rem;">Continuar al chat</a>
             @else
-                <a href="{{ route('register') }}" class="w-full sm:w-auto px-12 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition-all text-lg shadow-xl shadow-indigo-900/40">
-                    Empezar ahora
-                </a>
-                <a href="{{ route('login') }}" class="w-full sm:w-auto px-12 py-4 bg-slate-800 text-white font-bold rounded-2xl hover:bg-slate-700 transition-all text-lg border border-slate-700">
+                <a href="{{ route('register') }}" class="btn-primary" style="padding:14px 32px;font-size:1rem;">Empezar ahora</a>
+                <a href="{{ route('login') }}" style="padding:14px 32px;border-radius:14px;font-size:1rem;font-weight:700;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);transition:all .2s;"
+                   onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
                     Iniciar sesión
                 </a>
             @endauth
@@ -308,52 +541,65 @@
     </div>
 </section>
 
-{{-- ── Footer ──────────────────────────────────────────────────────────────── --}}
-<footer class="bg-white border-t border-slate-100 pt-20 pb-10">
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
-            <div class="col-span-2">
-                <div class="flex items-center gap-3 mb-6">
-                    <img src="/assets/img/mindra1.jpeg" alt="" class="h-8 w-8 rounded-full border border-slate-100">
-                    <img src="/assets/img/mindra2.png" alt="Mindra" class="h-6 w-auto">
+{{-- ── Footer ───────────────────────────────────────────────────────────────── --}}
+<footer style="background:#fff;border-top:1px solid #e8edf5;padding:60px 1.5rem 24px;">
+    <div style="max-width:100%;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;" class="features-grid">
+            {{-- Brand --}}
+            <div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <img src="/assets/img/mindra1.png" alt="" style="height:32px;width:auto;">
+                    <img src="/assets/img/mindra2.png" alt="Mindra" style="height:28px;width:auto;">
                 </div>
-                <p class="text-slate-500 text-sm max-w-xs leading-relaxed mb-8">
-                    Liderando el futuro del bienestar emocional a través de la computación afectiva e inteligencia artificial de vanguardia.
+                <p style="font-size:.8125rem;color:#64748b;line-height:1.65;max-width:280px;margin-bottom:14px;">
+                    Liderando el futuro del bienestar emocional a través de la computación afectiva e inteligencia artificial.
                 </p>
-                <div class="flex items-center gap-4">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-widest border border-emerald-100">
-                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                            Servicio Activo
-                        </span>
-                    <span class="text-slate-300 text-[10px] font-bold uppercase tracking-widest">v1.0.4</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:.625rem;font-weight:700;padding:3px 9px;border-radius:9999px;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;text-transform:uppercase;letter-spacing:.05em;">
+                        <span style="width:5px;height:5px;background:#22c55e;border-radius:9999px;display:inline-block;"></span>
+                        Activo
+                    </span>
+                    <span style="font-size:.625rem;font-weight:600;color:#cbd5e1;">v1.0</span>
                 </div>
             </div>
+
+            {{-- Plataforma --}}
             <div>
-                <h5 class="text-slate-900 font-bold text-sm mb-6 uppercase tracking-wider">Plataforma</h5>
-                <ul class="space-y-4 text-sm text-slate-500 font-medium">
-                    <li><a href="{{ route('chat') }}" class="hover:text-indigo-600 transition-colors">Chat IA</a></li>
-                    <li><a href="{{ route('dashboard') }}" class="hover:text-indigo-600 transition-colors">Mi Historial</a></li>
-                    <li><a href="{{ route('login') }}" class="hover:text-indigo-600 transition-colors">Acceso</a></li>
+                <p style="font-size:.6875rem;font-weight:700;color:#0f172a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Plataforma</p>
+                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;">
+                    <li><a href="{{ route('chat') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Chat con Mindra</a></li>
+                    <li><a href="{{ route('dashboard') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Mi historial</a></li>
+                    <li><a href="{{ route('login') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Acceso</a></li>
                 </ul>
             </div>
+
+            {{-- Legal --}}
             <div>
-                <h5 class="text-slate-900 font-bold text-sm mb-6 uppercase tracking-wider">Legal</h5>
-                <ul class="space-y-4 text-sm text-slate-500 font-medium">
-                    <li><a href="{{ route('legal.privacy') }}" class="hover:text-indigo-600 transition-colors">Privacidad</a></li>
-                    <li><a href="{{ route('legal.terms') }}" class="hover:text-indigo-600 transition-colors">Términos</a></li>
-                    <li><a href="{{ route('legal.consent') }}" class="hover:text-indigo-600 transition-colors">Consentimiento</a></li>
+                <p style="font-size:.6875rem;font-weight:700;color:#0f172a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Legal</p>
+                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;">
+                    <li><a href="{{ route('legal.privacy') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Privacidad</a></li>
+                    <li><a href="{{ route('legal.terms') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Términos</a></li>
+                    <li><a href="{{ route('legal.consent') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Consentimiento</a></li>
+                    <li><a href="{{ route('legal.cookies') }}" style="font-size:.8125rem;color:#64748b;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#64748b'">Cookies</a></li>
+                </ul>
+            </div>
+
+            {{-- Contacto --}}
+            <div>
+                <p style="font-size:.6875rem;font-weight:700;color:#0f172a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Contacto</p>
+                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;">
+                    <li style="font-size:.8125rem;color:#64748b;">Lab. Computación Afectiva e Innovación Educativa</li>
+                    <li style="font-size:.8125rem;color:#64748b;">cafined@itsm.edu.mx</li>
                 </ul>
             </div>
         </div>
 
-        <div class="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p class="text-slate-400 text-xs font-medium">
-                © {{ date('Y') }} Mindra. Laboratorio de Computación Afectiva e Innovación Educativa.
-            </p>
-            <div class="flex gap-8 text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em]">
-                <a href="#" class="hover:text-slate-900 transition-colors">Twitter</a>
-                <a href="#" class="hover:text-slate-900 transition-colors">LinkedIn</a>
-                <a href="#" class="hover:text-slate-900 transition-colors">Contacto</a>
+        {{-- Bottom bar --}}
+        <div style="padding-top:20px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <span style="font-size:.75rem;color:#94a3b8;">© {{ date('Y') }} Mindra. Todos los derechos reservados.</span>
+            <div style="display:flex;gap:16px;">
+                <a href="{{ route('legal.privacy') }}" style="font-size:.6875rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#94a3b8'">Privacidad</a>
+                <a href="{{ route('legal.terms') }}" style="font-size:.6875rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#94a3b8'">Términos</a>
             </div>
         </div>
     </div>

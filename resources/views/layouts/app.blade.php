@@ -4,18 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'Mindra') — {{ config('app.name', 'Mindra') }}</title>
+    <link rel="icon" type="image/png" href="/assets/img/mindra1.png">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800">
 
     <nav class="bg-white border-b border-slate-200">
-        <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+        <div class="max-w-full mx-auto px-4 h-14 flex items-center justify-between">
             <a href="{{ route('dashboard') }}" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
-                {{--<img src="/assets/img/mindra1.jpeg" alt=""
-                     style="height:36px;width:36px;border-radius:9999px;object-fit:cover;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,.08);flex-shrink:0;">--}}
-                <img src="/assets/img/mindra2.png" alt="Mindra"
-                     style="height:120px;width:auto;">
+                <img src="/assets/img/mindra1.png" alt="" style="height:40px;width:auto;">
+                <img src="/assets/img/mindra2.png" alt="Mindra" style="height:80px;width:auto;">
             </a>
             <div class="flex items-center gap-5 text-sm">
                 <a href="{{ route('chat') }}"
@@ -26,6 +25,14 @@
                    class="font-medium {{ request()->routeIs('dashboard') ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-800' }} transition-colors">
                     Historial
                 </a>
+                @auth
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}"
+                           class="font-medium {{ request()->routeIs('admin.*') ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-800' }} transition-colors">
+                            Panel Admin
+                        </a>
+                    @endif
+                @endauth
                 <span class="text-slate-300">|</span>
                 @auth
                     <span class="text-slate-400">{{ auth()->user()->name }}</span>
@@ -43,7 +50,7 @@
     </nav>
 
     @stack('styles')
-    <main class="max-w-5xl mx-auto px-4 py-8">
+    <main class="max-w-full mx-auto px-4 py-8">
         @yield('content')
     </main>
 
@@ -51,14 +58,13 @@
     <footer style="background:#fff;border-top:1px solid #e8edf5;margin-top:auto;">
 
         {{-- Franja principal --}}
-        <div style="max-width:80rem;margin:0 auto;padding:2.5rem 1.5rem 2rem;">
+        <div style="max-width:100%;margin:0 auto;padding:2.5rem 1.5rem 2rem;">
             <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
 
                 {{-- Columna marca --}}
                 <div style="display:flex;flex-direction:column;gap:12px;">
                     <div style="display:flex;align-items:center;gap:10px;">
-                        <img src="/assets/img/mindra1.jpeg" alt=""
-                             style="height:36px;width:36px;border-radius:9999px;object-fit:cover;border:2px solid #c7d2fe;box-shadow:0 2px 8px rgba(99,102,241,.18);">
+                        <img src="/assets/img/mindra1.png" alt="" style="height:36px;width:auto;">
                         <img src="/assets/img/mindra2.png" alt="Mindra" style="height:40px;width:auto;">
                     </div>
                     <p style="font-size:.8125rem;color:#64748b;line-height:1.6;max-width:320px;">
@@ -140,7 +146,7 @@
         </div>
 
         {{-- Aviso de privacidad resumido --}}
-        <div style="max-width:80rem;margin:0 auto;padding:0 1.5rem 1.5rem;">
+        <div style="max-width:100%;margin:0 auto;padding:0 1.5rem 1.5rem;">
             <div style="border-radius:14px;background:#f8fafc;border:1px solid #e8edf5;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                      style="width:16px;height:16px;flex-shrink:0;color:#6366f1;margin-top:1px;">
@@ -162,7 +168,7 @@
 
         {{-- Barra inferior --}}
         <div style="border-top:1px solid #e8edf5;background:#f8fafc;">
-            <div style="max-width:80rem;margin:0 auto;padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div style="max-width:100%;margin:0 auto;padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                 <span style="font-size:.75rem;color:#94a3b8;">
                     © {{ date('Y') }} Mindra. Todos los derechos reservados.
                 </span>

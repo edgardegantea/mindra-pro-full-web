@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\ChatController;
@@ -16,6 +17,10 @@ Route::get('/cookies',       [LegalController::class, 'cookies'])->name('legal.c
 Route::get('/terminos',      [LegalController::class, 'terms'])->name('legal.terms');
 Route::get('/consentimiento',[LegalController::class, 'consent'])->name('legal.consent');
 
+// Planes
+Route::get('/planes/full',  [HomeController::class, 'fullPlan'])->name('plans.full');
+Route::post('/planes/full', [HomeController::class, 'fullPlanSubmit'])->name('plans.full.submit');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login',     [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login',    [AuthController::class, 'login']);
@@ -28,4 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat',      [ChatController::class, 'index'])->name('chat');
     Route::post('/chat/send',[ChatController::class, 'send'])->name('chat.send');
     Route::post('/logout',   [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/',             [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users/{user}', [AdminController::class, 'userDetail'])->name('user');
 });

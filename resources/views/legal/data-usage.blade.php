@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-    .legal-body { max-width: 720px; }
+    .legal-body { max-width: 100%; }
     .legal-section { margin-bottom: 2rem; }
     .legal-section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .75rem; }
     .legal-section p, .legal-section li { font-size: .9rem; color: #475569; line-height: 1.75; }
@@ -29,7 +29,7 @@
         <div class="data-card" style="background:#f0fdf4;border-color:#bbf7d0;">
             <p style="font-size:.75rem;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;">Texto de conversación</p>
             <p style="font-size:.875rem;color:#166534;margin:0;line-height:1.6;">
-                Se analiza mediante modelos de PNL para estimar el nivel de ansiedad. Se almacena vinculado a tu sesión para que puedas revisar tu historial. Se usa de forma anonimizada para entrenar y mejorar los modelos de investigación.
+                Se analiza mediante modelos de procesamiento de lenguaje natural para estimar el nivel de ansiedad. Se almacena vinculado a tu sesión para que puedas revisar tu historial. Se utiliza de forma anonimizada para mejorar continuamente la calidad del servicio.
             </p>
         </div>
 
@@ -41,9 +41,9 @@
         </div>
 
         <div class="data-card" style="background:#fffbeb;border-color:#fde68a;">
-            <p style="font-size:.75rem;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;">Resultados de inferencia</p>
+            <p style="font-size:.75rem;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;">Resultados de análisis</p>
             <p style="font-size:.875rem;color:#92400e;margin:0;line-height:1.6;">
-                Las puntuaciones de ansiedad (0–100 %) se muestran en tu historial personal. En investigación se usan de forma agregada y anonimizada para evaluar el rendimiento del modelo.
+                Las puntuaciones de ansiedad (0–100 %) se muestran en tu historial personal. De forma agregada y anonimizada, se utilizan para evaluar y mejorar el rendimiento de nuestros modelos de IA.
             </p>
         </div>
 
@@ -60,25 +60,25 @@
         <ul>
             <li>Vender, ceder o arrendar tu información a terceros.</li>
             <li>Utilizarlos con fines publicitarios o de marketing.</li>
-            <li>Compartirlos con otras instituciones sin tu consentimiento explícito.</li>
+            <li>Compartirlos con otras empresas o instituciones sin tu consentimiento explícito.</li>
             <li>Usarlos para tomar decisiones automatizadas con efectos legales o equivalentes sobre ti.</li>
-            <li>Publicar contenido identificable de tus conversaciones en artículos o presentaciones.</li>
+            <li>Publicar contenido identificable de tus conversaciones en ningún medio.</li>
         </ul>
     </div>
 
     <div class="legal-section">
-        <h2>Anonimización para investigación</h2>
-        <p>Cuando los datos se utilizan en estudios o publicaciones académicas, se aplican técnicas de anonimización (eliminación de identificadores directos, generalización, perturbación estadística) de modo que sea imposible vincularlos con una persona concreta.</p>
+        <h2>Anonimización y mejora del servicio</h2>
+        <p>Cuando los datos se utilizan para mejorar los modelos de IA, se aplican técnicas de anonimización (eliminación de identificadores directos, generalización, perturbación estadística) de modo que sea imposible vincularlos con una persona concreta.</p>
     </div>
 
     <div class="legal-section">
         <h2>Transferencias internacionales</h2>
-        <p>Los modelos de IA se alojan en servidores ubicados dentro del espacio de la investigación. En caso de utilizar servicios externos (p. ej., transcripción de voz en la nube), se garantizan cláusulas contractuales tipo que aseguran un nivel de protección equivalente al exigido por la normativa aplicable.</p>
+        <p>Los modelos de IA se alojan en servidores seguros con ubicación controlada. En caso de utilizar servicios externos (p. ej., transcripción de voz en la nube), se garantizan cláusulas contractuales que aseguran un nivel de protección equivalente al exigido por la normativa aplicable.</p>
     </div>
 
     <div class="legal-section">
         <h2>Control de acceso</h2>
-        <p>Solo el equipo investigador autorizado y el personal técnico bajo acuerdo de confidencialidad tienen acceso a los datos en bruto. Los accesos se registran en bitácora de auditoría.</p>
+        <p>Solo el personal autorizado de Mindra bajo acuerdo de confidencialidad tiene acceso a los datos en bruto. Los accesos se registran en bitácora de auditoría y se revisan periódicamente.</p>
     </div>
 
 </div>

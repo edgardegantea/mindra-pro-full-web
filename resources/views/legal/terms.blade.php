@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-    .legal-body { max-width: 720px; }
+    .legal-body { max-width: 100%; }
     .legal-section { margin-bottom: 2rem; }
     .legal-section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .75rem; }
     .legal-section p, .legal-section li { font-size: .9rem; color: #475569; line-height: 1.75; }
@@ -31,7 +31,7 @@
         <div>
             <p style="font-size:.8125rem;font-weight:700;color:#c2410c;margin:0 0 4px;">Aviso importante</p>
             <p style="font-size:.8125rem;color:#9a3412;margin:0;line-height:1.6;">
-                Mindra es una herramienta de apoyo emocional con fines de investigación. <strong>No sustituye el diagnóstico, tratamiento ni atención de un profesional de salud mental.</strong> Si experimentas una crisis emocional grave, contacta a un servicio de salud mental o línea de emergencias.
+                Mindra es una herramienta profesional de apoyo al bienestar emocional. <strong>No sustituye el diagnóstico, tratamiento ni atención de un profesional de salud mental.</strong> Si experimentas una crisis emocional grave, contacta a un servicio de salud mental o línea de emergencias.
             </p>
         </div>
     </div>
@@ -42,59 +42,69 @@
     </div>
 
     <div class="legal-section">
-        <h2>2. Elegibilidad</h2>
+        <h2>2. Descripción del servicio</h2>
+        <p>Mindra es una plataforma profesional de salud mental digital que utiliza inteligencia artificial para analizar patrones emocionales a través del texto y la voz. El servicio ofrece análisis de bienestar emocional, seguimiento de niveles de ansiedad y recomendaciones personalizadas, disponible en planes Free, Pro y Full (institucional).</p>
+    </div>
+
+    <div class="legal-section">
+        <h2>3. Elegibilidad</h2>
         <p>Para usar Mindra debes:</p>
         <ul>
             <li>Tener 18 años o más, o contar con autorización de un tutor legal.</li>
             <li>Proporcionar información de registro veraz y actualizada.</li>
-            <li>Usar la plataforma solo para los fines previstos: apoyo emocional y participación en investigación.</li>
+            <li>Usar la plataforma solo para los fines previstos de apoyo al bienestar emocional.</li>
         </ul>
     </div>
 
     <div class="legal-section">
-        <h2>3. Uso permitido</h2>
+        <h2>4. Uso permitido</h2>
         <ul>
             <li>Interactuar con Mindra de forma honesta para obtener análisis de bienestar personal.</li>
             <li>Revisar tu historial de sesiones y métricas de ansiedad.</li>
-            <li>Participar voluntariamente en el proceso de investigación.</li>
+            <li>Utilizar las funcionalidades correspondientes a tu plan contratado.</li>
         </ul>
     </div>
 
     <div class="legal-section">
-        <h2>4. Uso prohibido</h2>
+        <h2>5. Uso prohibido</h2>
         <ul>
             <li>Intentar vulnerar, manipular o hacer ingeniería inversa de los sistemas de Mindra.</li>
-            <li>Introducir datos falsos o malintencionados con el fin de distorsionar la investigación.</li>
+            <li>Introducir datos falsos o malintencionados con el fin de alterar el funcionamiento del servicio.</li>
             <li>Compartir credenciales de acceso con terceros.</li>
-            <li>Utilizar la plataforma para actividades ilegales o contrarias a la ética académica.</li>
+            <li>Utilizar la plataforma para actividades ilegales o contrarias a la ética profesional.</li>
             <li>Reproducir, distribuir o publicar el contenido de la plataforma sin autorización.</li>
         </ul>
     </div>
 
     <div class="legal-section">
-        <h2>5. Limitación de responsabilidad</h2>
-        <p>El equipo investigador no se responsabiliza de:</p>
+        <h2>6. Planes y suscripciones</h2>
+        <p>Mindra ofrece diferentes planes de servicio (Free, Pro, Full). Las condiciones específicas de cada plan, incluyendo precio, funcionalidades y límites, se detallan en la página de planes. Mindra se reserva el derecho de modificar los precios y características de los planes con previo aviso de 30 días.</p>
+    </div>
+
+    <div class="legal-section">
+        <h2>7. Limitación de responsabilidad</h2>
+        <p>Mindra no se responsabiliza de:</p>
         <ul>
-            <li>Decisiones tomadas con base exclusiva en los resultados de Mindra.</li>
-            <li>Interrupciones del servicio por mantenimiento o causas de fuerza mayor.</li>
+            <li>Decisiones tomadas con base exclusiva en los resultados proporcionados por la plataforma.</li>
+            <li>Interrupciones del servicio por mantenimiento programado o causas de fuerza mayor.</li>
             <li>Daños derivados del uso indebido de la plataforma.</li>
         </ul>
         <p style="margin-top:.75rem;">Los resultados de Mindra son orientativos y no constituyen diagnóstico clínico.</p>
     </div>
 
     <div class="legal-section">
-        <h2>6. Propiedad intelectual</h2>
-        <p>El código, diseño, modelos de IA y contenido de Mindra son propiedad del equipo investigador. Los datos que tú aportas son de tu propiedad; al usarlos otorgas una licencia no exclusiva para los fines de investigación descritos en esta plataforma.</p>
+        <h2>8. Propiedad intelectual</h2>
+        <p>El código, diseño, modelos de IA, marca y contenido de Mindra son propiedad de sus titulares. Los datos que tú aportas son de tu propiedad; al utilizarlos otorgas una licencia no exclusiva para la prestación del servicio y la mejora de los modelos de IA en los términos descritos en la Política de Uso de Datos.</p>
     </div>
 
     <div class="legal-section">
-        <h2>7. Terminación</h2>
-        <p>El equipo investigador puede suspender o eliminar cuentas que incumplan estos términos, previa notificación cuando sea posible. Puedes solicitar la eliminación de tu cuenta en cualquier momento.</p>
+        <h2>9. Terminación</h2>
+        <p>Mindra puede suspender o eliminar cuentas que incumplan estos términos, previa notificación cuando sea posible. Puedes solicitar la cancelación de tu cuenta y la eliminación de tus datos en cualquier momento.</p>
     </div>
 
     <div class="legal-section">
-        <h2>8. Legislación aplicable</h2>
-        <p>Estos términos se rigen por la legislación mexicana vigente. Cualquier controversia se resolverá en los tribunales competentes de la jurisdicción donde se ubique la institución académica responsable.</p>
+        <h2>10. Legislación aplicable</h2>
+        <p>Estos términos se rigen por la legislación mexicana vigente, incluyendo la Ley Federal de Protección de Datos Personales en Posesión de los Particulares. Cualquier controversia se resolverá en los tribunales competentes de México.</p>
     </div>
 
 </div>

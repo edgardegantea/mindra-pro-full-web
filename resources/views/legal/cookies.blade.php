@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-    .legal-body { max-width: 720px; }
+    .legal-body { max-width: 100%; }
     .legal-section { margin-bottom: 2rem; }
     .legal-section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .75rem; }
     .legal-section p, .legal-section li { font-size: .9rem; color: #475569; line-height: 1.75; }

@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(InferenceRecord::class);
     }
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
     public function isAdmin(): bool
     {
         return in_array($this->role, ['admin', 'superadmin'], true);

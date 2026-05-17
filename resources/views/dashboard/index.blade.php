@@ -329,7 +329,7 @@
                                 @if ($botResp)
                                 <div class="chat-row-mindra">
                                     <div style="width:24px;height:24px;border-radius:9999px;overflow:hidden;border:1px solid #e2e8f0;flex-shrink:0;">
-                                        <img src="/assets/img/mindra1.jpeg" alt="Mindra" style="width:100%;height:100%;object-fit:cover;">
+                                        <img src="/assets/img/mindra1.png" alt="Mindra" style="width:100%;height:100%;object-fit:cover;">
                                     </div>
                                     <div class="bubble-mindra">{{ $botResp }}</div>
                                 </div>

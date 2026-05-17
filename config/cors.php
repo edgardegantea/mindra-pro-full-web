@@ -10,6 +10,8 @@ return [
         'http://localhost:5173',
         'http://localhost:8080',
         'https://mindraback.cafined.org',
+        'https://mindra.cafined.org',
+        'https://cafined.org',
     ],
 
     'allowed_origins_patterns' => [],
